@@ -5,6 +5,7 @@
  */
 package br.edu.ifrs.restinga.daione.lista03.Lista03.Entity;
 
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,7 +16,7 @@ import javax.persistence.Id;
  * @author 10070269
  */
 @Entity
-public class Autor {
+public class Autor implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID; 

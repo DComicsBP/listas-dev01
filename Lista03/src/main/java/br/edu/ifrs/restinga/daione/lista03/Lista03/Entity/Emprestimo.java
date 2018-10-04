@@ -2,23 +2,27 @@ package br.edu.ifrs.restinga.daione.lista03.Lista03.Entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
-
+import javax.persistence.TemporalType;
 @Entity
 public class Emprestimo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)        
     int ID; 
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Column(nullable = false)
+    @Temporal(TemporalType.DATE)
     Date Reiurada;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Column(nullable = false)
+    @Temporal(TemporalType.DATE)
     Date DevolucaoPrevisao; 
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Column(nullable = false)
+    @Temporal(TemporalType.DATE)
     Date Devoulucao; 
     @OneToOne
     Usuario Usuario;
