@@ -6,6 +6,7 @@
 package br.edu.ifrs.restinga.daione.lista03.Lista03.Entity;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,9 +21,13 @@ public class Telefone implements Serializable {
     @Id
      @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID; 
+    @Column(nullable = false)
     private String Tipo; 
+    @Column(nullable = false)
     private int Numero; 
+    @Column(nullable = false)
     private int Area; 
+    @Column(nullable = false)
     private int Ramal; 
 
     public int getID() {
