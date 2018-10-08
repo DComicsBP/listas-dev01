@@ -55,7 +55,6 @@ public class Bibliotecario implements Serializable {
         return Senha;
     }
 
-    @Size(min = 8, max = 8)
     public void setSenha(String Senha) {
         this.Senha = Senha;
     }

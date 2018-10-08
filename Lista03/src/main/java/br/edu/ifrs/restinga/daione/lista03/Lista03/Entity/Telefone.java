@@ -19,7 +19,7 @@ import javax.persistence.Id;
 @Entity
 public class Telefone implements Serializable {
     @Id
-     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID; 
     @Column(nullable = false)
     private String Tipo; 

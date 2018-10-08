@@ -1,12 +1,16 @@
 package br.edu.ifrs.restinga.daione.lista03.Lista03.Entity;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -17,7 +21,7 @@ public class Emprestimo implements Serializable {
     int ID; 
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
-    Date Reiurada;
+    Date Retirada;
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     Date DevolucaoPrevisao; 
@@ -39,20 +43,25 @@ public class Emprestimo implements Serializable {
         this.ID = ID;
     }
 
-    public Date getReiurada() {
-        return Reiurada;
+    public Date getRetirada() {
+        return Retirada;
     }
 
-    public void setReiurada(Date Reiurada) {
-        this.Reiurada = Reiurada;
+    public void setRetirada() {
+        
+        this.Retirada = new Date(System.currentTimeMillis());
     }
 
     public Date getDevolucaoPrevisao() {
+        
         return DevolucaoPrevisao;
     }
 
-    public void setDevolucaoPrevisao(Date DevolucaoPrevisao) {
-        this.DevolucaoPrevisao = DevolucaoPrevisao;
+    public void setDevolucaoPrevisao() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, 7);        
+        this.DevolucaoPrevisao = calendar.getTime();        
+        System.out.println("DATA +++>" + this.DevolucaoPrevisao);
     }
 
     public Date getDevoulucao() {

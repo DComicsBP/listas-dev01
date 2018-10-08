@@ -6,10 +6,12 @@
 package br.edu.ifrs.restinga.daione.lista03.Lista03.Entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 /**
@@ -19,15 +21,15 @@ import javax.persistence.OneToOne;
 @Entity
 public class Livro implements Serializable {
     @Id
-     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID; 
     private String titulo; 
     private int AnoPublicacao; 
     private boolean doacao; 
-    @OneToOne
-    private Autor Autor; 
-    @OneToOne
-    private Editora Editora; 
+    @OneToMany
+    private List<Autor> Autor; 
+    @OneToMany
+    private List<Editora> Editora; 
 
     public int getID() {
         return ID;
@@ -61,19 +63,19 @@ public class Livro implements Serializable {
         this.doacao = doacao;
     }
 
-    public Autor getAutor() {
+    public List<Autor> getAutor() {
         return Autor;
     }
 
-    public void setAutor(Autor Autor) {
+    public void setAutor(List<Autor> Autor) {
         this.Autor = Autor;
     }
 
-    public Editora getEditora() {
+    public List<Editora> getEditora() {
         return Editora;
     }
 
-    public void setEditora(Editora Editora) {
+    public void setEditora(List<Editora> Editora) {
         this.Editora = Editora;
     }
     
