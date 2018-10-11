@@ -82,7 +82,7 @@ public class BibliotecarioController {
     @ResponseStatus(HttpStatus.CREATED)
     public Bibliotecario inserir(@RequestBody Bibliotecario bibliotecario) {
     Commons commons = new Commons(); 
-
+    boolean flag = false; 
         Bibliotecario b = new Bibliotecario();
        // boolean flag =  commons.checkEmail(bibliotecario); 
 
