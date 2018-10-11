@@ -5,6 +5,7 @@
  */
 package br.edu.ifrs.restinga.daione.lista03.Lista03.Controller;
 
+import br.edu.ifrs.restinga.daione.lista03.Lista03.Commons.Commons;
 import br.edu.ifrs.restinga.daione.lista03.Lista03.DAO.BibliotecarioDAO;
 import br.edu.ifrs.restinga.daione.lista03.Lista03.ERRORS.ERROR400;
 import br.edu.ifrs.restinga.daione.lista03.Lista03.ERRORS.ERROR500;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import java.security.*;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,14 +34,13 @@ import java.util.logging.Logger;
  */
 @RestController
 public class BibliotecarioController {
-
+    
     @Autowired
     BibliotecarioDAO dao;
-
+    
     @RequestMapping(path = "/bibliotecarios/", method = RequestMethod.GET)
     public Iterable<Bibliotecario> getBiliotecarios() {
         Iterable<Bibliotecario> biblio = dao.findAll();
-
         if (dao.findAll() != null) {
             return biblio;
 
@@ -49,10 +50,10 @@ public class BibliotecarioController {
     }
 
     @RequestMapping(path = "/bibliotecarios/{id}", method = RequestMethod.GET)
-    public Optional<Bibliotecario> getBiliotecarios(@PathVariable Integer id) {
+    public Optional<Bibliotecario> getBiliotecario(@PathVariable Integer id) {
         Optional<Bibliotecario> b = dao.findById(id);
         ArrayList<Integer> ids;
-        ids = new ArrayList<Integer>();
+        ids = new ArrayList<>();
         boolean flag = false;
         Iterable<Bibliotecario> biblio = getBiliotecarios();
 
@@ -63,8 +64,7 @@ public class BibliotecarioController {
                 if ((Integer) bi.getID() == id) {
                     flag = true;
                 }
-            }
-            System.out.println("IDS" + ids.get(0) + " - " + ids.get(1) + " - " + ids.get(2) + " - " + ids.get(3));
+            }   
             if (flag) {
                 return b;
             } else {
@@ -81,10 +81,11 @@ public class BibliotecarioController {
     @RequestMapping(path = "/bibliotecarios/", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public Bibliotecario inserir(@RequestBody Bibliotecario bibliotecario) {
+    Commons commons = new Commons(); 
 
         Bibliotecario b = new Bibliotecario();
-        boolean flag = checkEmail(bibliotecario);
-        
+       // boolean flag =  commons.checkEmail(bibliotecario); 
+
         if (flag) {
             throw new ERROR400("Você informou um email já existente em nossa base de dados. Por favor informe outro email diferente de: " + bibliotecario.getEmail());
         } else {
@@ -98,7 +99,7 @@ public class BibliotecarioController {
         return b;
     }
 
-    @RequestMapping(path = "/fornecedores/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(path = "/bibliotecarios/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     public void apagar(@PathVariable int id) {
         if (dao.existsById(id)) {
@@ -110,7 +111,8 @@ public class BibliotecarioController {
 
     @RequestMapping(path = "/bibliotecarios/{id}", method = RequestMethod.PUT)
     public void atualizaBibliotecario(@PathVariable Integer id, @RequestBody Bibliotecario bibliotecario) {
-        boolean flag = checkEmail(bibliotecario); 
+        Commons commons = new Commons(); 
+        boolean flag = commons.checkEmail(bibliotecario);
         if (flag) {
             throw new ERROR400("Você informou um email já existente em nossa base de dados. Por favor informe outro email diferente de: " + bibliotecario.getEmail());
         }
@@ -131,25 +133,6 @@ public class BibliotecarioController {
         System.out.println("hexString ===>" + hexString);
         return hexString;
     }
-    
-    public boolean checkEmail(Bibliotecario bibliotecario){
-        Iterable<Bibliotecario> biblio = getBiliotecarios();
-        ArrayList<String> emails;
-        emails = new ArrayList<String>();
-        boolean flag = false;
 
-        if (biblio != null) {
-            for (Bibliotecario bi : biblio) {
-                emails.add(bi.getEmail());
-                if (bi.getEmail() == bibliotecario.getEmail()) {
-                    flag = true;
-                }
-            }
-        }
-
-        return flag; 
-    }
     
-    
-
 }
