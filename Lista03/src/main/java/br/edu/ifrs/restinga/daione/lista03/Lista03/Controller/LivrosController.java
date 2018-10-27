@@ -71,12 +71,20 @@ public class LivrosController {
                 List<Autor> aut = new ArrayList<>();
 
                 for (Autor autor : autores) {
-
+                   
+                    int value = checkNameAutor(autor.getNome(),autor.getSobrenome());
+                    if( value == 0){
+                        
                     Autor autorInterno = new Autor();
                     autorInterno.setNome(autor.getNome());
                     autorInterno.setSobrenome(autor.getSobrenome());
                     autorInterno.setID(aDAO.save(autorInterno).getID());
                     aut.add(autorInterno);
+                    } else{
+                        Autor autorAux = (Autor) aDAO.findById(value).get(); 
+                        aut.add(autorAux);
+                    }
+                    
                 }
 
                 for (Editora editora : editoras) {
@@ -153,4 +161,22 @@ public class LivrosController {
 
     }
 
+    public int checkNameAutor(String nomeAutor, String sobrenomeAutor){
+        List<Autor> autores = (List<Autor>) aDAO.findAll(); 
+        String nomeCompleto  = nomeAutor + "-"+ sobrenomeAutor; 
+        boolean flag = false; 
+        int value = 0; 
+        for(Autor a : autores){
+         String nomeAux = a.getNome()+"-"+a.getSobrenome(); 
+         if(nomeAux == nomeCompleto){
+            value =  a.getID();
+         }
+        }
+        
+        return value;
+    }
+
+
 }
+
+

@@ -15,19 +15,5 @@ public class AutorController {
     @Autowired
     AutorDAO aDAO; 
     
-    public boolean checknameAutor(String nomeAutor, String sobrenomeAutor){
-        List<Autor> autores = (List<Autor>) aDAO.findAll(); 
-        String nomeCompleto  = nomeAutor + "-"+ sobrenomeAutor; 
-        boolean flag = false; 
-        
-        for(Autor a : autores){
-         String nomeAux = a.getNome()+"-"+a.getSobrenome(); 
-         if(nomeAux == nomeCompleto){
-             flag = true; 
-         }
-        }
-        
-        return flag;
-    }
     
 }
