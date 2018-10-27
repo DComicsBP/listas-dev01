@@ -5,10 +5,14 @@
  */
 package br.edu.ifrs.prova.daione.Prova.DAO;
 
+import br.edu.ifrs.prova.daione.Prova.Entity.Procedimento;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
 /**
  *
  * @author dayon
  */
-public class ProcedimentoDAO {
-    
+@Repository
+public interface ProcedimentoDAO extends CrudRepository<Procedimento, Integer> {
 }

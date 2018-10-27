@@ -7,6 +7,8 @@ import br.edu.ifrs.restinga.daione.lista03.Lista03.ERRORS.ERROR400;
 import br.edu.ifrs.restinga.daione.lista03.Lista03.ERRORS.ERROR500;
 import br.edu.ifrs.restinga.daione.lista03.Lista03.Entity.Telefone;
 import br.edu.ifrs.restinga.daione.lista03.Lista03.Entity.Usuario;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,13 +25,6 @@ public class UsuarioController {
     @Autowired
     UsuarioDAO uDAO;
 
-   /*@RequestMapping(path = "/usuarios/{id}/telefones/", method = RequestMethod.GET)
-    public Telefone getTelefone(@RequestBody int id) {
-
-        Telefone t = tDAO.findById(id);
-        return t;
-    }
-
     @RequestMapping(path = "/usuarios/", method = RequestMethod.GET)
     public Iterable<Usuario> getUsuarios() {
         Iterable<Usuario> users = uDAO.findAll();
@@ -40,7 +35,51 @@ public class UsuarioController {
             throw new ERROR500("Não foi possível encontrar a lista de usuários");
         }
     }
+   @RequestMapping(path = "/usuarios/{id}/telefones/", method = RequestMethod.GET)
+    public Telefone getTelefone(@PathVariable int id) {
 
+        Optional<Usuario> u = this.getUsuario(id);
+        
+         Telefone t = (Telefone) u.get().getTelefone();
+         return t;
+    }   
+
+    @RequestMapping(path = "/usuario/{id}/telefone/", method= RequestMethod.POST)
+    public List<Telefone> inserirTelefone(@PathVariable int id, @RequestBody ArrayList<Telefone> tele){
+        Usuario u = this.getUsuario(id).get();
+        List<Telefone> telefones = this.getUsuario(id).get().getTelefone();
+        for(Telefone tel : tele) {
+
+            Telefone t = new Telefone();
+            t.setArea(tel.getArea());
+            t.setNumero(tel.getNumero());
+            t.setRamal(tel.getRamal());
+            t.setTipo(tel.getTipo());
+            t.setUser(u);
+            t.setID(tDAO.save(t).getID());
+            telefones.add(t); 
+            }
+
+        u.setTelefone(telefones);
+        uDAO.save(u);
+            
+        return telefones; 
+            
+    }
+    
+    @RequestMapping(path = "/usuarios/", method = RequestMethod.POST)
+    public Optional<Usuario> inserir(@RequestBody Usuario usuario){
+        Usuario u = new Usuario();
+        if(usuario.getSenha().length() > 8){
+                u.setID(0);
+                u = uDAO.save(usuario);
+            } else {
+                throw new ERROR400("Você não inseriu uma senha válida: maior que 8 dígitos");
+            }
+        
+        return null; 
+    }
+    
     @RequestMapping(path = "/usuarios/{id}", method = RequestMethod.GET)
     public Optional<Usuario> getUsuario(@PathVariable Integer id) {
         Optional<Usuario> u = uDAO.findById(id);
@@ -51,19 +90,5 @@ public class UsuarioController {
         }
     }
     
-    @RequestMapping(path = "/usuarios/", method = RequestMethod.POST)
-    public Optional<Usuario> inserir(){
-        return null; 
-    }
-    
-    @RequestMapping(path = "/usuarios/", method = RequestMethod.PUT)
-    public Optional<Usuario> alterar(){
-        return null; 
-    }
-    
-    @RequestMapping(path = "/usuarios/", method = RequestMethod.PUT)
-    public Optional<Usuario> deletar(){
-        return null; 
-    }*/
 }
 

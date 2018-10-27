@@ -5,27 +5,32 @@ package br.edu.ifrs.restinga.daione.lista03.Lista03.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
 
 @Entity
 public class Bibliotecario implements Serializable {
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)     
-   int ID; 
+   private int ID; 
    @Column(nullable = false)
-   String Nome; 
+   private String Nome; 
    @Column(nullable = false, unique = true)
-   String Email; 
+   private String Email; 
   
    @Column(nullable = false)
    @JsonIgnore
    @Size(min = 8, max = 8)
-   String Senha; 
+   private String Senha; 
+   
+   @OneToMany
+   private List<Emprestimo> emprestimos; 
 
     public int getID() {
         return ID;
@@ -58,8 +63,7 @@ public class Bibliotecario implements Serializable {
     public void setSenha(String Senha) {
         this.Senha = Senha;
     }
-   
-   
+
    
     
 }

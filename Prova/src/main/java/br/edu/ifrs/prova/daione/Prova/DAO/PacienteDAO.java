@@ -5,10 +5,16 @@
  */
 package br.edu.ifrs.prova.daione.Prova.DAO;
 
+import br.edu.ifrs.prova.daione.Prova.Entity.Paciente;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
 /**
  *
  * @author dayon
  */
-public class PacienteDAO {
+@Repository
+public interface PacienteDAO extends CrudRepository<Paciente,Integer> {
+    Iterable<Paciente> findByNome(String nome); 
     
 }

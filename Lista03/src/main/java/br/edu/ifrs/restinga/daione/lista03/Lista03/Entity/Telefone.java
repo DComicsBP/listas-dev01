@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -21,15 +22,22 @@ public class Telefone implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID; 
+    
     @Column(nullable = false)
     private String Tipo; 
+    
     @Column(nullable = false)
     private int Numero; 
+   
     @Column(nullable = false)
     private int Area; 
+    
     @Column(nullable = false)
     private int Ramal; 
-
+   
+    @ManyToOne
+    private Usuario user;
+    
     public int getID() {
         return ID;
     }
@@ -68,6 +76,14 @@ public class Telefone implements Serializable {
 
     public void setRamal(int Ramal) {
         this.Ramal = Ramal;
+    }
+
+    public Usuario getUser() {
+        return user;
+    }
+
+    public void setUser(Usuario user) {
+        this.user = user;
     }
     
     

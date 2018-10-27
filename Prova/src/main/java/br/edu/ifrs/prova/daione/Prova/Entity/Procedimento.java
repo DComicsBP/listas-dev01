@@ -1,9 +1,16 @@
 package br.edu.ifrs.prova.daione.Prova.Entity;
 
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.Size;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.validation.constraints.Min;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  *
@@ -12,15 +19,17 @@ import javax.validation.constraints.Size;
 @Entity
 public class Procedimento {
    @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
    private int id; 
    
    @Column(nullable = false )
    private String nome; 
    
-   @Column(nullable = false )
-   private float valor; 
+   @Min(0)
+   @Column(nullable = false)
+   private double valor; 
    
-
+   
     public int getId() {
         return id;
     }
@@ -37,14 +46,14 @@ public class Procedimento {
         this.nome = nome;
     }
 
-    public float getValor() {
+    public double getValor() {
         return valor;
     }
 
-    public void setValor(float valor) {
+    public void setValor(double valor) {
         this.valor = valor;
     }
-   
-   
+
+    
     
 }

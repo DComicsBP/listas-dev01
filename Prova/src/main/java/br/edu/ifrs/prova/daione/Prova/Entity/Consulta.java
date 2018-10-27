@@ -9,8 +9,13 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.validation.constraints.Min;
 
 /**
  *
@@ -19,6 +24,7 @@ import javax.persistence.OneToMany;
 @Entity
 public class Consulta {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     
     @Column(nullable = false)
@@ -26,11 +32,33 @@ public class Consulta {
     
     @Column(nullable = false)
     private String hora; 
-    private float valor;
    
-    @OneToMany
-    List<Procedimento> procedimentos; 
+    @Min(0)
+    private double valor;
+    @OneToOne
+    private Paciente paciente; 
+    
 
+    public Paciente getPaciente() {
+        return paciente;
+    }
+
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
+    }
+
+    public List<Procedimento> getProcedimentos() {
+        return procedimentos;
+    }
+
+    public void setProcedimentos(List<Procedimento> procedimentos) {
+        this.procedimentos = procedimentos;
+    }
+    
+   
+    @ManyToMany
+    List<Procedimento> procedimentos; 
+    
     public int getId() {
         return id;
     }
@@ -55,11 +83,11 @@ public class Consulta {
         this.hora = hora;
     }
 
-    public float getValor() {
+    public double getValor() {
         return valor;
     }
 
-    public void setValor(float valor) {
+    public void setValor(double valor) {
         this.valor = valor;
     }
     

@@ -6,10 +6,12 @@
 package br.edu.ifrs.restinga.daione.lista03.Lista03.Entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 /**
  *
@@ -22,7 +24,20 @@ public class Autor implements Serializable {
     private int ID; 
     private String Nome; 
     private String Sobrenome; 
+    
+    @ManyToMany
+    private List<Livro> livros; 
 
+    public List<Livro> getLivros() {
+        return livros;
+    }
+
+    public void setLivros(List<Livro> livros) {
+        this.livros = livros;
+    }
+    
+    
+    
     public int getID() {
         return ID;
     }

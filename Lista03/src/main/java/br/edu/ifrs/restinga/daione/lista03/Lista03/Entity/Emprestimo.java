@@ -3,38 +3,44 @@ package br.edu.ifrs.restinga.daione.lista03.Lista03.Entity;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
 @Entity
 public class Emprestimo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)        
     int ID; 
+    
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     Date Retirada;
+    
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     Date DevolucaoPrevisao; 
+    
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     Date Devoulucao; 
-    @OneToOne
+    
+    @ManyToOne
     Usuario Usuario;
-    @OneToOne
+    
+    @ManyToOne
     Livro Livro; 
-    @OneToOne
+    
+    @ManyToOne
     Bibliotecario Bibliotecario; 
-
+ 
     public int getID() {
         return ID;
     }

@@ -1,6 +1,7 @@
 package br.edu.ifrs.restinga.daione.lista03.Lista03.Entity;
 
 import java.io.Serializable;
+import static java.lang.Integer.min;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,15 +17,46 @@ public class Usuario implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID; 
+    
     @Column(nullable=false)
     private String Nome; 
+    
     @Column(nullable=false, unique=true)
     private String CPF; 
+    
     @Column(nullable=false, unique = true)
-    private String Email; 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Telefone> Telefone; 
+    private String Email;   
+    
+    
+    @Column(nullable=false)
+    private String Senha; 
 
+    @OneToMany
+    private List<Telefone> Telefone; 
+    
+    @OneToMany
+    private List<Emprestimo> Emprestimos; 
+    
+
+    public List<Emprestimo> getEmprestimos() {
+        return Emprestimos;
+    }
+
+    public void setEmprestimos(List<Emprestimo> Emprestimos) {
+        this.Emprestimos = Emprestimos;
+    }
+    
+
+    public String getSenha() {
+        return Senha;
+    }
+
+    public void setSenha(String Senha) {
+        this.Senha = Senha;
+    }
+
+    
+  
     public int getID() {
         return ID;
     }
