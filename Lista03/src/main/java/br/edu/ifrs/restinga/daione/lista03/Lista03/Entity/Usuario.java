@@ -19,13 +19,13 @@ public class Usuario implements Serializable {
     private int ID; 
     
     @Column(nullable=false)
-    private String Nome; 
+    private String nome; 
     
     @Column(nullable=false, unique=true)
-    private String CPF; 
+    private String cpf; 
     
     @Column(nullable=false, unique = true)
-    private String Email;   
+    private String email;   
     
     
     @Column(nullable=false)
@@ -64,25 +64,25 @@ public class Usuario implements Serializable {
         this.ID = ID;
     }
     public String getNome() {
-        return Nome;
+        return nome;
     }
     public void setNome(String Nome) {
-        this.Nome = Nome;
+        this.nome = Nome;
     }
     public String getCPF() {
-        return CPF;
+        return cpf;
     }
 
     public void setCPF(String CPF) {
-        this.CPF = CPF;
+        this.cpf = CPF;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String Email) {
-        this.Email = Email;
+        this.email = Email;
     }
 
     public List<Telefone> getTelefone() {

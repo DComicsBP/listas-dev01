@@ -24,7 +24,28 @@ public class UsuarioController {
 
     @Autowired
     UsuarioDAO uDAO;
+    
+    
 
+    @RequestMapping(path = "/usuarios/nome/{nome}", method = RequestMethod.GET)
+    public Optional<Usuario> getUsuariosNome(@PathVariable String nome) {
+        Optional<Usuario> users =  uDAO.findByNome(nome);
+        return users;
+    }
+    
+    @RequestMapping(path = "/usuarios/cpf/{cpf}", method = RequestMethod.GET)
+    public Optional<Usuario> getUsuariosCpf(@PathVariable String cpf) {
+        Optional<Usuario> users =  uDAO.findByCpf(cpf);
+        return users;
+    }
+    
+    @RequestMapping(path = "/usuarios/email/{email}", method = RequestMethod.GET)
+    public Optional<Usuario> getUsuariosEmail(@PathVariable String email) {
+        Optional<Usuario> users =  uDAO.findByEmail(email);
+        return users; 
+     }
+    
+    
     @RequestMapping(path = "/usuarios/", method = RequestMethod.GET)
     public Iterable<Usuario> getUsuarios() {
         Iterable<Usuario> users = uDAO.findAll();
@@ -35,17 +56,18 @@ public class UsuarioController {
             throw new ERROR500("Não foi possível encontrar a lista de usuários");
         }
     }
+    
    @RequestMapping(path = "/usuarios/{id}/telefones/", method = RequestMethod.GET)
-    public Telefone getTelefone(@PathVariable int id) {
+    public List<Telefone> getTelefone(@PathVariable int id) {
 
         Optional<Usuario> u = this.getUsuario(id);
         
-         Telefone t = (Telefone) u.get().getTelefone();
+         List<Telefone> t = u.get().getTelefone();
          return t;
     }   
 
     @RequestMapping(path = "/usuario/{id}/telefone/", method= RequestMethod.POST)
-    public List<Telefone> inserirTelefone(@PathVariable int id, @RequestBody ArrayList<Telefone> tele){
+    public List<Telefone> inserirTelefones(@PathVariable int id, @RequestBody ArrayList<Telefone> tele){
         Usuario u = this.getUsuario(id).get();
         List<Telefone> telefones = this.getUsuario(id).get().getTelefone();
         for(Telefone tel : tele) {

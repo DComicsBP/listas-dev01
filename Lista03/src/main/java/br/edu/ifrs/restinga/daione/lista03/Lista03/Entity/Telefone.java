@@ -5,6 +5,7 @@
  */
 package br.edu.ifrs.restinga.daione.lista03.Lista03.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,6 +36,7 @@ public class Telefone implements Serializable {
     @Column(nullable = false)
     private int Ramal; 
    
+    @JsonIgnore
     @ManyToOne
     private Usuario user;
     

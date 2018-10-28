@@ -22,9 +22,9 @@ public class Autor implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID; 
-    private String Nome; 
-    private String Sobrenome; 
-    
+    private String nome; 
+    private String sobrenome; 
+        
     @ManyToMany
     private List<Livro> livros; 
 
@@ -47,19 +47,19 @@ public class Autor implements Serializable {
     }
 
     public String getNome() {
-        return Nome;
+        return nome;
     }
 
     public void setNome(String Nome) {
-        this.Nome = Nome;
+        this.nome = Nome;
     }
 
     public String getSobrenome() {
-        return Sobrenome;
+        return sobrenome;
     }
 
     public void setSobrenome(String Sobrenome) {
-        this.Sobrenome = Sobrenome;
+        this.sobrenome = Sobrenome;
     }
     
     

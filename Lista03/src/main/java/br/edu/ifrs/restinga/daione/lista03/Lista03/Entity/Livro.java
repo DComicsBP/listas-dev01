@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -26,13 +27,13 @@ public class Livro implements Serializable {
     private int AnoPublicacao; 
     private boolean doacao;
     
-    @ManyToMany
+    @OneToMany
     private List<Autor> Autor; 
     
-    @ManyToMany
+    @OneToMany
     private List<Editora> Editora; 
 
-    @ManyToMany
+    @OneToMany
     private List<Emprestimo> emprestimos; 
     
     public int getID() {

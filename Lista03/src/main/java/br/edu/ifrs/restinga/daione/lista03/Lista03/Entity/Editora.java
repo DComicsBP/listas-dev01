@@ -19,7 +19,7 @@ public class Editora implements Serializable {
     private String Nome;
     
     @Column(nullable = false, unique = true)
-    private String Cnpj; 
+    private String cnpj; 
     
     @OneToMany
     List<Livro> livros; 
@@ -41,11 +41,11 @@ public class Editora implements Serializable {
     }
 
     public String getCnpj() {
-        return Cnpj;
+        return cnpj;
     }
 
     public void setCnpj(String Cnpj) {
-        this.Cnpj = Cnpj;
+        this.cnpj = Cnpj;
     }
     
     
