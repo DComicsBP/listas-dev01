@@ -45,7 +45,6 @@ public class UsuarioController {
         return users; 
      }
     
-    
     @RequestMapping(path = "/usuarios/", method = RequestMethod.GET)
     public Iterable<Usuario> getUsuarios() {
         Iterable<Usuario> users = uDAO.findAll();
@@ -110,6 +109,10 @@ public class UsuarioController {
         } else {
             throw new ERROR400("Deu ruim");
         }
+    }
+    
+    public void listarEmprestimo(int id){
+        
     }
     
 }

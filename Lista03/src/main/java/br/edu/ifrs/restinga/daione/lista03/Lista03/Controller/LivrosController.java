@@ -34,6 +34,7 @@ public class LivrosController {
     AutorDAO aDAO;
 
     //autores
+
     @RequestMapping(path = "/autores/", method = RequestMethod.GET)
     public Iterable<Autor> ListarAutores() {
         Iterable<Autor> autores = aDAO.findAll();
@@ -60,78 +61,6 @@ public class LivrosController {
         
         return autor;
     }
-    
-    // editoras
-    @RequestMapping(path = "/editora/", method = RequestMethod.GET)
-    public Editora ListarEditoraById(int id) {
-        Optional<Editora> editora = eDAO.findById(id);
-        Editora e = new Editora();
-
-        e.setID(editora.get().getID());
-        e.setNome(editora.get().getNome());
-        e.setNome(editora.get().getCnpj());
-
-        return e;
-    }
-
-    @RequestMapping(path = "/editoras/", method = RequestMethod.GET)
-    public Iterable<Editora> ListarEditoras() {
-        Iterable<Editora> editoras = eDAO.findAll();
-        return editoras;
-    }
-
-    @RequestMapping(path = "/livros/autores/", method = RequestMethod.POST)
-    public List<Autor> insereAutor(@RequestBody List<Autor> a) {
-
-        List<Autor> autores = new ArrayList<>();
-
-        if (a != null) {
-
-            for (Autor autor : a) {
-                Autor aut = new Autor();
-                aut.setNome(autor.getNome());
-                aut.setSobrenome(autor.getNome());
-
-                aDAO.save(aut);
-                autores.add(aut);
-            }
-
-        } else {
-
-            throw new ERROR400("Você não informou os dados corretamente");
-        }
-        return autores;
-
-    }
-
-    @RequestMapping(path = "/livros/{id}/editora/", method = RequestMethod.GET)
-    public List<Editora> listaEditorasPeloLivro(@PathVariable int id) {
-        Optional<Livro> l = livroDAO.findById(id);
-        return l.get().getEditora();
-
-    }
-
-    @RequestMapping(path = "/livros/editora/", method = RequestMethod.POST)
-    public List<Editora> insereEditora(@RequestBody List<Editora> e) {
-        List<Editora> editoras = new ArrayList<>();
-
-        if (e != null) {
-            for (Editora editora : e) {
-                Editora edi = new Editora();
-                edi.setCnpj(editora.getCnpj());
-                edi.setNome(editora.getNome());
-                eDAO.save(edi);
-                editoras.add(edi);
-            }
-
-        } else {
-
-            throw new ERROR400("Você não informou os dados corretamente");
-        }
-        return editoras;
-
-    }
-
     //livros
     @RequestMapping(path = "/livros/", method = RequestMethod.GET)
     public Iterable<Livro> ListarLivros() {
@@ -163,13 +92,17 @@ public class LivrosController {
                     if (autor.getID() == 0) {
                         autorInterno.setNome(autor.getNome());
                         autorInterno.setSobrenome(autor.getSobrenome());
+                        if(autor.getID() == 0){
+                            autorInterno.setID(aDAO.save(autorInterno).getID());
+                        }
 
                         aux = checkNameAutor(autor.getNome(), autor.getSobrenome());
-                        if (aux.getID() != 0) {
-                            autorInterno = aux;
-                        }
                         
-                        autorInterno.setID(aDAO.save(autorInterno).getID());
+
+                        if (aux.getNome() != null) {
+                            autorInterno = aux;
+                            autorInterno.setID(aDAO.save(autorInterno));
+                        }
                         aut.add(autorInterno);
                     }
                 }
@@ -184,13 +117,16 @@ public class LivrosController {
                         editoraInterna.setCnpj(editora.getCnpj());
                         editoraInterna.setNome(editora.getNome());
 
+                        editoraInterna.setID(eDAO.save(editoraInterna).getID());
+                        edi.add(editoraInterna);
+                    
                         if (aux.getNome() != null) {
                             editoraInterna = aux;
+                            editoraInterna.setID(eDAO.save(editoraInterna));
+
                         }
-                     editoraInterna.setID(eDAO.save(editoraInterna).getID());
-                     edi.add(editoraInterna);
-                    }else{
-                        editoraInterna.setID(eDAO.save(this.ListarEditoraById(idEditora)).getID());
+                     }else{
+                        editoraInterna.setID(eDAO.save(this.ListarEditoraById(idAutor)).getID());
                         edi.add(editoraInterna);
                     }
                 }
@@ -206,7 +142,7 @@ public class LivrosController {
                 // livro.setEditora(edi);
               //  livro.setID(livroDAO.save(liv).getID());
 
-
+              
 
             }
         } else {
@@ -217,14 +153,8 @@ public class LivrosController {
 
     }
 
-    // checks and Utils
-    
-
-
-
-
-
-public Autor checkNameAutor(String nomeAutor, String sobrenomeAutor) {
+    // checks and Utils 
+    public Autor checkNameAutor(String nomeAutor, String sobrenomeAutor) {
         List<Autor> autores = aDAO.findByNomeAndSobrenome(nomeAutor, sobrenomeAutor);
         Autor a = new Autor();
 
@@ -252,5 +182,15 @@ public Autor checkNameAutor(String nomeAutor, String sobrenomeAutor) {
 
         return e;
     }
+    
+    public Editora ListarEditoraById(int id) {
+        Optional<Editora> editora = eDAO.findById(id);
+        Editora e = new Editora();
 
+        e.setID(editora.get().getID());
+        e.setNome(editora.get().getNome());
+        e.setNome(editora.get().getCnpj());
+
+        return e;
+    }
 }
