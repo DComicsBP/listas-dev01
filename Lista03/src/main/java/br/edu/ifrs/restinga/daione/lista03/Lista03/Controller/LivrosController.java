@@ -194,19 +194,11 @@ public class LivrosController {
                         edi.add(editoraInterna);
                     }
                 }
-
-             
                 livro.setAnoPublicacao(liv.getAnoPublicacao());
                 livro.setAutor(aut);
-                    livro.setEditora(edi);
+                livro.setEditora(edi);
                 livro.setTitulo(liv.getTitulo());
                 livroDAO.save(livro);
-
-                // livro.setAutor(aut);
-                // livro.setEditora(edi);
-              //  livro.setID(livroDAO.save(liv).getID());
-
-
 
             }
         } else {
