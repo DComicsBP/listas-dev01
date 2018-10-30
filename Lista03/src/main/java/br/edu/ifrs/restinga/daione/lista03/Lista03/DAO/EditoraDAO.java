@@ -13,5 +13,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EditoraDAO extends CrudRepository<Editora, Integer>{
     
-    List<Editora> findByCnpj(String cnpj); 
+    Optional<Editora> findByCnpj(String cnpj); 
 }

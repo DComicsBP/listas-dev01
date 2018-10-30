@@ -48,20 +48,20 @@ public class LivrosController {
         return l.get().getAutor();
 
     }
-    
+
     @RequestMapping(path = "/livros/autores/{id}", method = RequestMethod.GET)
-    public Autor getAutor(int id){
-        Autor autor = new Autor(); 
+    public Autor getAutor(int id) {
+        Autor autor = new Autor();
         Optional<Autor> a = aDAO.findById(id);
-        
+
         autor.setID(a.get().getID());
         autor.setLivros(a.get().getLivros());
         autor.setNome(a.get().getNome());
         autor.setSobrenome(a.get().getSobrenome());
-        
+
         return autor;
     }
-    
+
     // editoras
     @RequestMapping(path = "/editora/", method = RequestMethod.GET)
     public Editora ListarEditoraById(int id) {
@@ -108,7 +108,12 @@ public class LivrosController {
     @RequestMapping(path = "/livros/{id}/editora/", method = RequestMethod.GET)
     public List<Editora> listaEditorasPeloLivro(@PathVariable int id) {
         Optional<Livro> l = livroDAO.findById(id);
-        return l.get().getEditora();
+        if (l != null) {
+            return l.get().getEditora();
+
+        } else {
+            throw new ERROR400("Não foi possivel encontrar o dado");
+        }
 
     }
 
@@ -126,8 +131,7 @@ public class LivrosController {
             }
 
         } else {
-
-            throw new ERROR400("Você não informou os dados corretamente");
+            throw new ERROR400("Não foi possível encontrar os dados. ");
         }
         return editoras;
 
@@ -141,85 +145,26 @@ public class LivrosController {
 
     }
 
-    @RequestMapping(path = "/livros/{idEditora}/{idAutor}", method = RequestMethod.POST)
-    public Livro insereLivro(@PathVariable int idEditora, @PathVariable int idAutor, @RequestBody List<Livro> l) {
-
-        if (l!=null) {
-            for (Livro liv : l) {
-                liv.setID(0);
-                Livro livro = new Livro();
-
-                List<Editora> editoras = liv.getEditora();
-                List<Editora> edi = new ArrayList<>();
-
-                List<Autor> autores = liv.getAutor();
-                List<Autor> aut = new ArrayList<>();
-
-                for (Autor autor : autores) {
-
-                    Autor autorInterno = new Autor();
-                    Autor aux = new Autor(); 
-
-                    if (autor.getID() == 0) {
-                        autorInterno.setNome(autor.getNome());
-                        autorInterno.setSobrenome(autor.getSobrenome());
-                    }
-                    if(autor.getID()> 0){
-                        
-                    }
-                        aux = checkNameAutor(autor.getNome(), autor.getSobrenome());
-                        if (aux.getID() != 0 && idAutor == 0) {
-                            aut.add(aux);
-                        }else{
-                            autorInterno.setID(aDAO.save(autorInterno).getID());
-                            aut.add(autorInterno);
-                        }
-                        if(idAutor > 0){
-                            aut.add(this.getAutor(idAutor)); 
-                        }
-                        //if(aux.getID())
-                    }
-
-                for (Editora editora : editoras) {
-                    Editora editoraInterna = new Editora();
-                    Editora aux = this.checkCNPJEditora(editora.getCnpj());
-                        Editora edit = new Editora(); 
-
-                    if (editora.getID() == 0) {
-
-                        editoraInterna.setCnpj(editora.getCnpj());
-                        editoraInterna.setNome(editora.getNome());
-
-                        if (aux != null ) {
-                            edi.add(aux); 
-                        }else{
-                         editoraInterna.setID(eDAO.save(editoraInterna).getID());
-                        edi.add(editoraInterna);   
-                        }
-                        if(idEditora != 0){
-                            edi.add(this.ListarEditoraById(idEditora)); 
-                        }
-                    }
-                }
-                livro.setAnoPublicacao(liv.getAnoPublicacao());
-                livro.setAutor(aut);
-                livro.setEditora(edi);
-                livro.setTitulo(liv.getTitulo());
-                livroDAO.save(livro);
+    @RequestMapping(path = "/livros/{idE}/{idA}", method = RequestMethod.POST)
+    public Livro insereLivro(@PathVariable String idE, @PathVariable String idA, @RequestBody Livro l) {
+        int idAutor = Integer.parseInt(idA); 
+        int idEditora = Integer.parseInt(idE); 
+        ArrayList<Autor> autores = new ArrayList<>();
+        
+        if(idAutor != 0){
+            Optional<Autor> a = aDAO.findById(idAutor);
+            if(a!= null){
+            }else{
+                throw new ERROR500("Não foi possível encontrar o autor"); 
             }
-        } else {
-            throw new ERROR400("nao deu!!");
+            
         }
-
         return null;
 
     }
 
     // checks and Utils
-
-
-
-public Autor checkNameAutor(String nomeAutor, String sobrenomeAutor) {
+    public Autor checkNameAutor(String nomeAutor, String sobrenomeAutor) {
         List<Autor> autores = aDAO.findByNomeAndSobrenome(nomeAutor, sobrenomeAutor);
         Autor a = new Autor();
 
@@ -229,21 +174,23 @@ public Autor checkNameAutor(String nomeAutor, String sobrenomeAutor) {
             a.setLivros(aut.getLivros());
             a.setNome(aut.getNome());
             a.setSobrenome(aut.getSobrenome());
-        }
         return a;
-
+        }
+        return null;
     }
 
     public Editora checkCNPJEditora(String CNPJ) {
-        List<Editora> editoras = eDAO.findByCnpj(CNPJ);
+        Optional<Editora> editoras = eDAO.findByCnpj(CNPJ);
         Editora e = new Editora();
-        for(Editora edi : editoras){
-            e.setCnpj(edi.getCnpj());
-            e.setID(edi.getID());
-            e.setNome(e.getNome());
+        e.setID(editoras.get().getID());
+        e.setNome(editoras.get().getNome());
+        e.setCnpj(editoras.get().getCnpj());
+
+        if(e != null){
+            return e; 
         }
         
-        return e;
+        return null; 
     }
 
 }

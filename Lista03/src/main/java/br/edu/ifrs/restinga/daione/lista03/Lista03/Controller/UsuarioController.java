@@ -25,8 +25,6 @@ public class UsuarioController {
     @Autowired
     UsuarioDAO uDAO;
     
-    
-
     @RequestMapping(path = "/usuarios/nome/{nome}", method = RequestMethod.GET)
     public Optional<Usuario> getUsuariosNome(@PathVariable String nome) {
         Optional<Usuario> users =  uDAO.findByNome(nome);
