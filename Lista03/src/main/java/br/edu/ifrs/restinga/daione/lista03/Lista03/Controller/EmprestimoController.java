@@ -8,6 +8,7 @@ import br.edu.ifrs.restinga.daione.lista03.Lista03.Entity.Emprestimo;
 import br.edu.ifrs.restinga.daione.lista03.Lista03.Entity.Livro;
 import java.time.Period;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -161,4 +162,16 @@ public class EmprestimoController {
         return emp;
     }
 
+    
+    @RequestMapping(path = "/emprestimos/porDatass/{date01}/date02/", method = RequestMethod.POST)
+    public Iterable <Emprestimo> listaEmprestimosEmAberto(Date date01, Date date02) {
+        Iterable<Emprestimo> emprestimos = eDAO.findAllByRetiradaBetween(date02, date02);
+        if(emprestimos == null){
+            throw new ERROR400("Não foi encontrado nenhum dado entre a data informada"); 
+        }
+        return emprestimos;
+    }
+
+    
+    
 }

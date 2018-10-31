@@ -22,14 +22,14 @@ public class Emprestimo implements Serializable {
     
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
-    Date Retirada;
+    Date retirada;
     
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     Date DevolucaoPrevisao; 
 
     public void setRetirada(Date Retirada) {
-        this.Retirada = Retirada;
+        this.retirada = Retirada;
     }
 
     public void setDevolucaoPrevisao(Date DevolucaoPrevisao) {
@@ -58,12 +58,12 @@ public class Emprestimo implements Serializable {
     }
 
     public Date getRetirada() {
-        return Retirada;
+        return retirada;
     }
 
     public void setRetirada() {
         
-        this.Retirada = new Date(System.currentTimeMillis());
+        this.retirada = new Date(System.currentTimeMillis());
     }
 
     public Date getDevolucaoPrevisao() {
