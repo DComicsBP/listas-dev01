@@ -27,6 +27,14 @@ public class Emprestimo implements Serializable {
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     Date DevolucaoPrevisao; 
+
+    public void setRetirada(Date Retirada) {
+        this.Retirada = Retirada;
+    }
+
+    public void setDevolucaoPrevisao(Date DevolucaoPrevisao) {
+        this.DevolucaoPrevisao = DevolucaoPrevisao;
+    }
     
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)

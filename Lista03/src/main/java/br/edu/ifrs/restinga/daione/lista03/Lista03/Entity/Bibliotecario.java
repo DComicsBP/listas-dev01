@@ -22,7 +22,7 @@ public class Bibliotecario implements Serializable {
    @Column(nullable = false)
    private String Nome; 
    @Column(nullable = false, unique = true)
-   private String Email; 
+   private String email; 
   
    @Column(nullable = false)
    @JsonIgnore
@@ -49,11 +49,11 @@ public class Bibliotecario implements Serializable {
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
-    public void setEmail(String Email) {
-        this.Email = Email;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getSenha() {
