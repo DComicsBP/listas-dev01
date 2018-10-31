@@ -147,19 +147,73 @@ public class LivrosController {
 
     @RequestMapping(path = "/livros/{idE}/{idA}", method = RequestMethod.POST)
     public Livro insereLivro(@PathVariable String idE, @PathVariable String idA, @RequestBody Livro l) {
-        int idAutor = Integer.parseInt(idA); 
-        int idEditora = Integer.parseInt(idE); 
+        int idAutor = Integer.parseInt(idA);
+        int idEditora = Integer.parseInt(idE);
         ArrayList<Autor> autores = new ArrayList<>();
-        
-        if(idAutor != 0){
+        ArrayList<Editora> editoras = new ArrayList<>();
+
+        Livro livro = new Livro();
+        Autor autor = new Autor();
+        Editora editora = new Editora();
+
+        // Autor 
+        if (idAutor != 0) {
             Optional<Autor> a = aDAO.findById(idAutor);
-            if(a!= null){
-            }else{
-                throw new ERROR500("Não foi possível encontrar o autor"); 
+            if (a != null) {
+
+                autor.setID(idAutor);
+                autor.setNome(a.get().getNome());
+                autor.setSobrenome(a.get().getSobrenome());
+
             }
-            
+        } else if (idAutor == 0) {
+
+            for (Autor aut : l.getAutor()) {
+                autor.setNome(aut.getNome());
+                autor.setSobrenome(aut.getSobrenome());
+
+                if (checkNameAutor(autor.getNome(), autor.getSobrenome()) == null) {
+                    autor.setID(aDAO.save(autor).getID());
+                } else {
+                    autor.setID(aut.getID());
+                }
+            }
         }
-        return null;
+
+        autores.add(autor);
+        // Editora 
+        if (idEditora != 0) {
+            Optional<Editora> e = eDAO.findById(idAutor);
+            if (e != null) {
+                editora.setCnpj(e.get().getCnpj());
+                editora.setID(e.get().getID());
+                editora.setNome(e.get().getNome());
+            }
+        } else if (idEditora == 0) {
+            
+            for (Editora edi : l.getEditora()) {
+                editora.setCnpj(edi.getCnpj());
+                editora.setNome(edi.getNome());
+                editora.setID(eDAO.save(editora).getID());
+            
+            if (this.checkCNPJEditora(editora.getCnpj()) == null) {
+                editora.setID(eDAO.save(editora).getID());
+            }else{
+                editora.setID(edi.getID());
+                }
+            }
+        }
+
+        editoras.add(editora);
+
+        livro.setAnoPublicacao(l.getAnoPublicacao());
+        livro.setAutor(autores);
+        livro.setDoacao(l.isDoacao());
+        livro.setEditora(editoras);
+        livro.setTitulo(l.getTitulo());
+        livro.setID(livroDAO.save(livro).getID());
+
+        return livro;
 
     }
 
@@ -174,7 +228,7 @@ public class LivrosController {
             a.setLivros(aut.getLivros());
             a.setNome(aut.getNome());
             a.setSobrenome(aut.getSobrenome());
-        return a;
+            return a;
         }
         return null;
     }
@@ -186,11 +240,11 @@ public class LivrosController {
         e.setNome(editoras.get().getNome());
         e.setCnpj(editoras.get().getCnpj());
 
-        if(e != null){
-            return e; 
+        if (e != null) {
+            return e;
         }
-        
-        return null; 
+
+        return null;
     }
 
 }

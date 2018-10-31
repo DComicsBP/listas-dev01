@@ -26,6 +26,17 @@ public class Livro implements Serializable {
     private String titulo; 
     private int AnoPublicacao; 
     private boolean doacao;
+
+    
+    public List<Emprestimo> getEmprestimos() {
+        return emprestimos;
+    }
+
+    public void setEmprestimos(List<Emprestimo> emprestimos) {
+        this.emprestimos = emprestimos;
+    }
+    
+    
     
     @OneToMany
     private List<Autor> Autor; 
