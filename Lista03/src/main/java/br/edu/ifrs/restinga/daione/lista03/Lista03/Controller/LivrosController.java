@@ -38,20 +38,21 @@ public class LivrosController {
     EmprestimoDAO emprestimoDAO; 
     
     //init autores
+    // 1- Lista os autores
     @RequestMapping(path = "/autores/", method = RequestMethod.GET)
     public Iterable<Autor> ListarAutores() {
         Iterable<Autor> autores = aDAO.findAll();
         return autores;
 
     }
-
+    // 2 - lista os autores do livro
     @RequestMapping(path = "/livros/{id}/autores/", method = RequestMethod.GET)
     public List<Autor> listaAutoresPeloLivro(@PathVariable int id) {
         Optional<Livro> l = livroDAO.findById(id);
         return l.get().getAutor();
 
     }
-
+    // 3 - busca autor específico 
     @RequestMapping(path = "/livros/autores/{id}", method = RequestMethod.GET)
     public Autor getAutor(int id) {
         Autor autor = new Autor();
@@ -67,7 +68,7 @@ public class LivrosController {
     // finish autores
     
     // init editoras
-    // 1 - lista a editora pelo seu ID
+    // 4 - lista a editora pelo seu ID
     @RequestMapping(path = "/editora/", method = RequestMethod.GET)
     public Editora ListarEditoraById(int id) {
         Optional<Editora> editora = eDAO.findById(id);
@@ -80,14 +81,14 @@ public class LivrosController {
         return e;
     }
     
-    //2 - Busca todas as editoras
+    //5 - Busca todas as editoras
     @RequestMapping(path = "/editoras/", method = RequestMethod.GET)
     public Iterable<Editora> ListarEditoras() {
         Iterable<Editora> editoras = eDAO.findAll();
         return editoras;
     }
 
-    //3 - Busca todos os autores de um livro
+    //6 - Busca todos os autores de um livro
     @RequestMapping(path = "/livros/autores/", method = RequestMethod.POST)
     public List<Autor> insereAutor(@RequestBody List<Autor> a) {
 
@@ -112,7 +113,7 @@ public class LivrosController {
 
     }
     
-    // 4 - Busca todas as editoras de um livro
+    // 7 - Busca todas as editoras de um livro
     @RequestMapping(path = "/livros/{id}/editora/", method = RequestMethod.GET)
     public List<Editora> listaEditorasPeloLivro(@PathVariable int id) {
         Optional<Livro> l = livroDAO.findById(id);
@@ -125,7 +126,7 @@ public class LivrosController {
 
     }
     
-    // 5 - Insere nova editora 
+    // 8 - Insere nova editora 
     @RequestMapping(path = "/livros/editora/", method = RequestMethod.POST)
     public List<Editora> insereEditora(@RequestBody List<Editora> e) {
         List<Editora> editoras = new ArrayList<>();
@@ -149,7 +150,7 @@ public class LivrosController {
     
     //init livros
     
-    // 6 - Lista todos os livros
+    // 9 - Lista todos os livros
     @RequestMapping(path = "/livros/", method = RequestMethod.GET)
     public Iterable<Livro> ListarLivros() {
         Iterable<Livro> livros = livroDAO.findAll();
@@ -157,7 +158,7 @@ public class LivrosController {
 
     }
     
-    // 7 - lista livros pelo nome e sobrenome do autor
+    // 10 - lista livros pelo nome e sobrenome do autor
     @RequestMapping(path = "/livros/listar/sobrenome/{nome}/{sobrenome}", method = RequestMethod.GET)
     public List<Livro> ListarLivrosPorAutor (@PathVariable String sobrenome, @PathVariable String nome) {
         Iterable<Livro> livros = livroDAO.findAll();
@@ -179,7 +180,7 @@ public class LivrosController {
 
     }
     
-    // 8 - Lista os livros pela editora
+    // 11 - Lista os livros pela editora
     @RequestMapping(path = "/livros/listar/livro/editora/{editora}", method = RequestMethod.GET)
     public List<Livro> ListarLivrosPorEditora (@PathVariable String editora) {
         Iterable<Livro> livros = livroDAO.findAll();
@@ -203,7 +204,7 @@ public class LivrosController {
 
     }
     
-    // 9 - Insere o livro pelo id da editora e o id do autor
+    // 12 - Insere o livro pelo id da editora e o id do autor
     @RequestMapping(path = "/livros/{idE}/{idA}", method = RequestMethod.POST)
     public Livro insereLivro(@PathVariable String idE, @PathVariable String idA, @RequestBody Livro l) {
         int idAutor = Integer.parseInt(idA);
@@ -279,7 +280,7 @@ public class LivrosController {
 
     // checks and Utils
     
-    // 10 - busca o nome do autor
+    // 13 - busca o nome do autor
     public Autor checkNameAutor(String nomeAutor, String sobrenomeAutor) {
         List<Autor> autores = aDAO.findByNomeAndSobrenome(nomeAutor, sobrenomeAutor);
         Autor a = new Autor();
@@ -295,7 +296,7 @@ public class LivrosController {
         return null;
     }
     
-    // 11 - ve se um cnpj já está cadastrado 
+    // 14 - ve se um cnpj já está cadastrado 
     public Editora checkCNPJEditora(String CNPJ) {
         Optional<Editora> editoras = eDAO.findByCnpj(CNPJ);
         Editora e = new Editora();
