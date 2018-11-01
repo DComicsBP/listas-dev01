@@ -31,7 +31,7 @@ public class Usuario implements Serializable {
     @Column(nullable=false)
     private String Senha; 
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Telefone> Telefone; 
     
     @OneToMany
