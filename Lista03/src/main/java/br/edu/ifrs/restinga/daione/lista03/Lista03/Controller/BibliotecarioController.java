@@ -73,9 +73,8 @@ public class BibliotecarioController {
     @ResponseStatus(HttpStatus.CREATED)
     public Bibliotecario inserir(@RequestBody Bibliotecario bibliotecario) {
     Commons commons = new Commons(); 
-    boolean flag = false; 
         Bibliotecario b = new Bibliotecario();
-        flag =  checkEmail(bibliotecario.getEmail()); 
+        boolean flag =  checkEmail(bibliotecario.getEmail()); 
 
         if (flag) {
             throw new ERROR500("Você informou um email já existente em nossa base de dados. Por favor informe outro email diferente de: " + bibliotecario.getEmail());
@@ -115,8 +114,7 @@ public class BibliotecarioController {
             throw new ERROR400("Não encontrado");
         }
 
-    }
-    
+    }    
     // 6 - Tinha pensado em fazer a senha com hash, mas não deu tempo
     public String makeHash(String senha) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -125,8 +123,7 @@ public class BibliotecarioController {
         String hexString = new BigInteger(1, digest.digest()).toString(16);
         System.out.println("hexString ===>" + hexString);
         return hexString;
-    }
-    
+    }    
     // 7 - Método para checkar se o email existe ou não no bd. Se existe retorna true, senão retorna false 
     public boolean checkEmail(String email){
         Optional<Bibliotecario> bibliotecario = dao.findByEmail(email); 

@@ -21,6 +21,7 @@ public class Editora implements Serializable {
     @Column(nullable = false, unique = true)
     private String cnpj; 
     
+    
     @OneToMany
     List<Livro> livros; 
 

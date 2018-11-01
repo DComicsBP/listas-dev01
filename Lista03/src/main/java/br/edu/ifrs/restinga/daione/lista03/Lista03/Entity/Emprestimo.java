@@ -58,28 +58,24 @@ public class Emprestimo implements Serializable {
     }
 
     public Date getRetirada() {
-        return retirada;
+        return new Date(System.currentTimeMillis());
     }
 
-    public void setRetirada() {
-        
-        this.retirada = new Date(System.currentTimeMillis());
-    }
 
     public Date getDevolucaoPrevisao() {
+      Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, 7);        
+        this.DevolucaoPrevisao = calendar.getTime();        
+        return this.DevolucaoPrevisao;
         
-        return DevolucaoPrevisao;
     }
 
     public void setDevolucaoPrevisao() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_MONTH, 7);        
-        this.DevolucaoPrevisao = calendar.getTime();        
-        System.out.println("DATA +++>" + this.DevolucaoPrevisao);
+       
     }
 
     public Date getDevoulucao() {
-        return Devoulucao;
+        return this.getDevoulucao();
     }
 
     public void setDevoulucao(Date Devoulucao) {
