@@ -13,7 +13,8 @@ public class Lista03ApplicationTests {
 	@Test
 	public void contextLoads() {
             Emprestimo emprestimo = new Emprestimo(); 
-            emprestimo.setRetirada();
+            
+            emprestimo.setRetirada(emprestimo.getRetirada());
             System.out.println("Emprestimo == data ==> "+ emprestimo.getRetirada());
             emprestimo.setDevolucaoPrevisao();
         }

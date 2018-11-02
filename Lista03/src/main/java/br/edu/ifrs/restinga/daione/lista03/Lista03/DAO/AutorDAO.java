@@ -9,8 +9,8 @@ import org.springframework.data.repository.CrudRepository;
  * @author dayon
  */
 public interface AutorDAO extends CrudRepository<Autor,Integer> {
-    List<Autor> findByNomeAndSobrenome(String nome, String sobrenome);          
+    Iterable<Autor> findByNomeAndSobrenome(String nome, String sobrenome);          
                         
-
+    List<Autor> findByNomeInAndSobrenomeIn(String nome, String sobrenome);
     
 }
