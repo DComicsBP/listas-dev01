@@ -4,8 +4,10 @@ import br.edu.ifrs.restinga.daione.lista03.Lista03.DAO.EmprestimoDAO;
 import br.edu.ifrs.restinga.daione.lista03.Lista03.DAO.LivroDAO;
 import br.edu.ifrs.restinga.daione.lista03.Lista03.ERRORS.ERROR400;
 import br.edu.ifrs.restinga.daione.lista03.Lista03.ERRORS.ERROR500;
+import br.edu.ifrs.restinga.daione.lista03.Lista03.Entity.Bibliotecario;
 import br.edu.ifrs.restinga.daione.lista03.Lista03.Entity.Emprestimo;
 import br.edu.ifrs.restinga.daione.lista03.Lista03.Entity.Livro;
+import br.edu.ifrs.restinga.daione.lista03.Lista03.Entity.Usuario;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -113,7 +116,33 @@ public class EmprestimoController {
 
         return emp;
     }
-
+    // insere novo emprestimo no sistema
+    @RequestMapping(path="/emprestimo/", method = RequestMethod.POST)
+    public void inserirEmprestimo(@RequestBody Emprestimo emprestimo){
+        Livro livro = new Livro(); 
+        Usuario usuario = new Usuario(); 
+        Bibliotecario bibliotecario = new Bibliotecario(); 
+        Emprestimo e = new Emprestimo(); 
+        
+        if (emprestimo!= null){
+            livro  = emprestimo.getLivro(); 
+            usuario = emprestimo.getUsuario(); 
+            bibliotecario = emprestimo.getBibliotecario(); 
+            
+            e.setBibliotecario(bibliotecario);
+            e.setUsuario(usuario);
+            e.setLivro(livro);
+                
+            e.setRetirada(emprestimo.getRetirada());
+            e.setDevoulucao(emprestimo.getDevoulucao());
+            e.setDevolucaoPrevisao(emprestimo.getDevolucaoPrevisao());
+            e.setID(eDAO.save(e).getID());
+            
+        }else{
+            throw new ERROR500("Não foi possivel efetivar emprestimo. "); 
+        }
+    }
+    
     // 6-  lista todos os emprestimos com o campo devolucao maior que o prazo previsto 
     @RequestMapping(path = "/emprestimo/emAtraso/", method = RequestMethod.GET)
     public Iterable<Emprestimo> getEmprestmosEmAtraso(@PathVariable String email) {
@@ -135,7 +164,7 @@ public class EmprestimoController {
     }
 
     // 7 - Faz o mesmo que  o método 2
-    @RequestMapping(path = "/emprestimos/naoDevolvidos/", method = RequestMethod.POST)
+    @RequestMapping(path = "/emprestimos/naoDevolvidos/", method = RequestMethod.GET)
     public List<Emprestimo> listaEmprestimosEmAberto() {
         Iterable<Emprestimo> emprestimos = eDAO.findAll();
         List<Emprestimo> emp = new ArrayList<>();
@@ -155,15 +184,14 @@ public class EmprestimoController {
                 emp.add(emprestimo);
             }
         }
-        if (emp == null) {
+        if (emp.get(0).getID()  == 0) {
             throw new ERROR400("Não existem empréstimos em atraso. ");
         }
-
         return emp;
     }
 
     
-    @RequestMapping(path = "/emprestimos/porDatass/{date01}/date02/", method = RequestMethod.POST)
+    @RequestMapping(path = "/emprestimos/porDatass/{date01}/date02/", method = RequestMethod.GET)
     public Iterable <Emprestimo> listaEmprestimosEmAberto(Date date01, Date date02) {
         Iterable<Emprestimo> emprestimos = eDAO.findAllByRetiradaBetween(date02, date02);
         if(emprestimos == null){
