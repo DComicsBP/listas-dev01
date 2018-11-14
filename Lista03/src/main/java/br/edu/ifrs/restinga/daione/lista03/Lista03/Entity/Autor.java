@@ -28,6 +28,16 @@ public class Autor implements Serializable {
     @ManyToMany
     private List<Livro> livros; 
 
+    private Livro livro; 
+
+    public Livro getLivro() {
+        return livro;
+    }
+
+    public void setLivro(Livro livro) {
+        this.livro = livro;
+    }
+    
     public List<Livro> getLivros() {
         return livros;
     }

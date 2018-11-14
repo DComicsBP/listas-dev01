@@ -39,6 +39,7 @@ public class BibliotecarioController {
             throw new ERROR400("Deu ruim");
         }
     }
+    
     // 2 - busca o bibliotecario pela ID do usuario 
     @RequestMapping(path = "/bibliotecarios/{id}", method = RequestMethod.GET)
     public Optional<Bibliotecario> getBiliotecario(@PathVariable Integer id) {
@@ -68,6 +69,7 @@ public class BibliotecarioController {
         }
 
     }
+    
     // 3 - Insere novo bibliotecario
     @RequestMapping(path = "/bibliotecarios/", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
@@ -88,6 +90,7 @@ public class BibliotecarioController {
         }
         return b;
     }
+    
     // 4 - Deleta o bibliotecario 
     @RequestMapping(path = "/bibliotecarios/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
@@ -115,6 +118,7 @@ public class BibliotecarioController {
         }
 
     }    
+    
     // 6 - Tinha pensado em fazer a senha com hash, mas não deu tempo
     public String makeHash(String senha) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -124,6 +128,7 @@ public class BibliotecarioController {
         System.out.println("hexString ===>" + hexString);
         return hexString;
     }    
+    
     // 7 - Método para checkar se o email existe ou não no bd. Se existe retorna true, senão retorna false 
     public boolean checkEmail(String email){
         Optional<Bibliotecario> bibliotecario = dao.findByEmail(email); 

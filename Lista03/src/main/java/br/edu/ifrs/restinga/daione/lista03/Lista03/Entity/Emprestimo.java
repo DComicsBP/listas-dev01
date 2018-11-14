@@ -28,7 +28,21 @@ public class Emprestimo implements Serializable {
     @Temporal(TemporalType.DATE)
     Date DevolucaoPrevisao; 
 
-    public void setRetirada(Date Retirada) {
+    
+    @Column(nullable = false)
+    @Temporal(TemporalType.DATE)
+    Date Devoulucao; 
+    
+    @ManyToOne
+    Usuario usuario;
+    
+    @ManyToOne
+    Livro Livro; 
+    
+    @ManyToOne
+    Bibliotecario Bibliotecario; 
+
+     public void setRetirada(Date Retirada) {
         this.retirada = Retirada;
     }
 
@@ -36,19 +50,6 @@ public class Emprestimo implements Serializable {
         this.DevolucaoPrevisao = DevolucaoPrevisao;
     }
     
-    @Column(nullable = false)
-    @Temporal(TemporalType.DATE)
-    Date Devoulucao; 
-    
-    @ManyToOne
-    Usuario Usuario;
-    
-    @ManyToOne
-    Livro Livro; 
-    
-    @ManyToOne
-    Bibliotecario Bibliotecario; 
- 
     public int getID() {
         return ID;
     }
@@ -83,11 +84,11 @@ public class Emprestimo implements Serializable {
     }
 
     public Usuario getUsuario() {
-        return Usuario;
+        return usuario;
     }
 
     public void setUsuario(Usuario Usuario) {
-        this.Usuario = Usuario;
+        this.usuario = Usuario;
     }
 
     public Livro getLivro() {

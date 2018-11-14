@@ -44,14 +44,22 @@ public class LivrosController {
     @RequestMapping(path = "/autores/", method = RequestMethod.GET)
     public Iterable<Autor> ListarAutores() {
         Iterable<Autor> autores = aDAO.findAll();
+        if(autores == null){
+            throw new ERROR400("Não foi possivel encontrar um registro"); 
+        }
         return autores;
-
     }
 
     // 2 - lista os autores do livro
     @RequestMapping(path = "/livros/{id}/autores/", method = RequestMethod.GET)
     public List<Autor> listaAutoresPeloLivro(@PathVariable int id) {
         Optional<Livro> l = livroDAO.findById(id);
+        l.get().setAutor(aDAO.findByLivro(l.get()));
+       
+        if(l.get().getAutor() == null ){
+            throw new ERROR400("Não foi possivel achar livros para esse autor"); 
+        }
+        
         return l.get().getAutor();
 
     }
@@ -157,8 +165,10 @@ public class LivrosController {
     @RequestMapping(path = "/livros/", method = RequestMethod.GET)
     public Iterable<Livro> ListarLivros() {
         Iterable<Livro> livros = livroDAO.findAll();
+        if(livros == null){
+            throw new ERROR400("Não foi possível encontrar livro registrado. "); 
+        }
         return livros;
-
     }
 
     // 10 - lista livros pelo nome e sobrenome do autor
@@ -177,12 +187,11 @@ public class LivrosController {
             }
         }
         if (livrosFiltrados == null) {
-            throw new ERROR400("Não foi encontrado resultado com a pesquisa acima");
+            throw new ERROR400("Não foi encontrado registro com os valores informados");
         }
         return livrosFiltrados;
 
     }
-
     // 11 - Lista os livros pela editora
     @RequestMapping(path = "/livros/listar/livro/editora/{editora}", method = RequestMethod.GET)
     public List<Livro> ListarLivrosPorEditora(@PathVariable String editora) {

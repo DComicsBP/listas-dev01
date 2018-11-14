@@ -6,6 +6,8 @@
 package br.edu.ifrs.restinga.daione.lista03.Lista03.DAO;
 
 import br.edu.ifrs.restinga.daione.lista03.Lista03.Entity.Telefone;
+import br.edu.ifrs.restinga.daione.lista03.Lista03.Entity.Usuario;
+import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 /**
@@ -15,7 +17,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TelefoneDAO extends CrudRepository<Telefone,Integer>{
 
-    public Telefone findById(int id);
+    Telefone findById(int id);
+    List<Telefone> findByUser(Usuario usuario);
     
     
 }

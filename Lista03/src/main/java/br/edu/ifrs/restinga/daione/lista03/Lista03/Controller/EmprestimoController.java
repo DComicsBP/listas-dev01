@@ -8,7 +8,6 @@ import br.edu.ifrs.restinga.daione.lista03.Lista03.Entity.Bibliotecario;
 import br.edu.ifrs.restinga.daione.lista03.Lista03.Entity.Emprestimo;
 import br.edu.ifrs.restinga.daione.lista03.Lista03.Entity.Livro;
 import br.edu.ifrs.restinga.daione.lista03.Lista03.Entity.Usuario;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,7 +34,7 @@ public class EmprestimoController {
 
     // 1 - busca todos os emprestimos
     @RequestMapping(path = "/emprestimo/", method = RequestMethod.GET)
-    public Iterable<Emprestimo> getEmprestimos() {
+    public Iterable<Emprestimo>  getEmprestimos() {
         Iterable<Emprestimo> emprestimos = eDAO.findAll();
         if (emprestimos != null) {
             return emprestimos;
@@ -116,7 +115,8 @@ public class EmprestimoController {
 
         return emp;
     }
-    // insere novo emprestimo no sistema
+
+    // 6- insere novo emprestimo no sistema
     @RequestMapping(path="/emprestimo/", method = RequestMethod.POST)
     public void inserirEmprestimo(@RequestBody Emprestimo emprestimo){
         Livro livro = new Livro(); 
@@ -142,8 +142,8 @@ public class EmprestimoController {
             throw new ERROR500("Não foi possivel efetivar emprestimo. "); 
         }
     }
-    
-    // 6-  lista todos os emprestimos com o campo devolucao maior que o prazo previsto 
+
+    // 7-  lista todos os emprestimos com o campo devolucao maior que o prazo previsto 
     @RequestMapping(path = "/emprestimo/emAtraso/", method = RequestMethod.GET)
     public Iterable<Emprestimo> getEmprestmosEmAtraso(@PathVariable String email) {
 
@@ -163,7 +163,7 @@ public class EmprestimoController {
 
     }
 
-    // 7 - Faz o mesmo que  o método 2
+    // 8 - Faz o mesmo que  o método 2
     @RequestMapping(path = "/emprestimos/naoDevolvidos/", method = RequestMethod.GET)
     public List<Emprestimo> listaEmprestimosEmAberto() {
         Iterable<Emprestimo> emprestimos = eDAO.findAll();
@@ -185,21 +185,19 @@ public class EmprestimoController {
             }
         }
         if (emp.get(0).getID()  == 0) {
-            throw new ERROR400("Não existem empréstimos em atraso. ");
+            throw new ERROR400("Não existem empréstimos não devolvidos. ");
         }
         return emp;
     }
 
-    
-    @RequestMapping(path = "/emprestimos/porDatass/{date01}/date02/", method = RequestMethod.GET)
+    // 9 - Busca por intervalo de datas os emprestimos 
+    @RequestMapping(path = "/emprestimos/porDatas/{date01}/date02/", method = RequestMethod.GET)
     public Iterable <Emprestimo> listaEmprestimosEmAberto(Date date01, Date date02) {
         Iterable<Emprestimo> emprestimos = eDAO.findAllByRetiradaBetween(date02, date02);
         if(emprestimos == null){
-            throw new ERROR400("Não foi encontrado nenhum dado entre a data informada"); 
+            throw new ERROR400("Não foi encontrado nenhum dado entre as datas informadas"); 
         }
         return emprestimos;
     }
-
-    
     
 }
