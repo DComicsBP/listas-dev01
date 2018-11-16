@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface BibliotecarioDAO extends CrudRepository<Bibliotecario,Integer> {
-    Optional<Bibliotecario> findByEmail(String email); 
+        Optional<Bibliotecario> findByEmail(String email); 
+    
     
 }

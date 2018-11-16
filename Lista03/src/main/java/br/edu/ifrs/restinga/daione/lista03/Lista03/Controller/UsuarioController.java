@@ -101,7 +101,6 @@ public class UsuarioController {
         }
 
         return users;
-
     }
 
     // 7 - lista todos os telefones de um usuario

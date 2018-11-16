@@ -51,10 +51,11 @@ public class LivrosController {
     }
 
     // 2 - lista os autores do livro
-    @RequestMapping(path = "/livros/{id}/autores/", method = RequestMethod.GET)
+    @RequestMapping(path = "/livros/{id}/", method = RequestMethod.GET)
     public List<Autor> listaAutoresPeloLivro(@PathVariable int id) {
         Optional<Livro> l = livroDAO.findById(id);
-        l.get().setAutor(aDAO.findByLivro(l.get()));
+        
+       // l.get().setAutor(aDAO.findByLivro(l.get()));
        
         if(l.get().getAutor() == null ){
             throw new ERROR400("Não foi possivel achar livros para esse autor"); 
@@ -88,7 +89,7 @@ public class LivrosController {
 
         e.setID(editora.get().getID());
         e.setNome(editora.get().getNome());
-        e.setNome(editora.get().getCnpj());
+        e.setCnpj(editora.get().getCnpj());
 
         return e;
     }
@@ -192,7 +193,8 @@ public class LivrosController {
         return livrosFiltrados;
 
     }
-    // 11 - Lista os livros pela editora
+    
+// 11 - Lista os livros pela editora
     @RequestMapping(path = "/livros/listar/livro/editora/{editora}", method = RequestMethod.GET)
     public List<Livro> ListarLivrosPorEditora(@PathVariable String editora) {
         Iterable<Livro> livros = livroDAO.findAll();
@@ -322,6 +324,7 @@ public class LivrosController {
     // finish livros
 
     // checks and Utils
+    
     // 14 - busca o nome do autor
     public Autor checkNameAutor(String nomeAutor, String sobrenomeAutor) {
         Iterable<Autor> autores = aDAO.findAll();
@@ -335,6 +338,10 @@ public class LivrosController {
             aux.setSobrenome(a.getSobrenome());
             break;
 
+        }
+        
+        if(aux.getID() != 0){
+            throw new ERROR500("Autor já cadastrado na base de dados. "); 
         }
         return aux;
 
@@ -357,6 +364,10 @@ public class LivrosController {
                 break; 
 
             }
+        }
+        
+        if(e.getID() != 0){
+            throw new ERROR500("Esse CNPJ  já está cadastrado no sistema"); 
         }
 
         return e;

@@ -1,13 +1,15 @@
 package br.edu.ifrs.restinga.daione.lista03.Lista03.Controller;
 
+import br.edu.ifrs.restinga.daione.lista03.Lista03.DAO.BibliotecarioDAO;
 import br.edu.ifrs.restinga.daione.lista03.Lista03.DAO.EmprestimoDAO;
 import br.edu.ifrs.restinga.daione.lista03.Lista03.DAO.LivroDAO;
+import br.edu.ifrs.restinga.daione.lista03.Lista03.DAO.UsuarioDAO;
 import br.edu.ifrs.restinga.daione.lista03.Lista03.ERRORS.ERROR400;
 import br.edu.ifrs.restinga.daione.lista03.Lista03.ERRORS.ERROR500;
 import br.edu.ifrs.restinga.daione.lista03.Lista03.Entity.Bibliotecario;
 import br.edu.ifrs.restinga.daione.lista03.Lista03.Entity.Emprestimo;
 import br.edu.ifrs.restinga.daione.lista03.Lista03.Entity.Livro;
-import br.edu.ifrs.restinga.daione.lista03.Lista03.Entity.Usuario;
+import br.edu.ifrs.restinga.daione.lista03.Lista03.Modelo.EmprestimoModel;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,37 +30,33 @@ public class EmprestimoController {
 
     @Autowired
     EmprestimoDAO eDAO;
+    
+    @Autowired
+    BibliotecarioDAO bDAO;
 
     @Autowired
     LivroDAO lDAO;
+    
+    @Autowired
+    UsuarioDAO uDAO;
 
     // 1 - busca todos os emprestimos
     @RequestMapping(path = "/emprestimo/", method = RequestMethod.GET)
     public Iterable<Emprestimo>  getEmprestimos() {
         Iterable<Emprestimo> emprestimos = eDAO.findAll();
-        if (emprestimos != null) {
-            return emprestimos;
-
-        } else {
-            throw new ERROR400("Nenhum dado encontrado");
-        }
+        return emprestimos; 
     }
 
     // 2 - busca todos os livros emprestados
     @RequestMapping(path = "/emprestimo/livrosEmprestados/", method = RequestMethod.GET)
-    public List<Livro> getLivrosEmprestado() {
-        Iterable<Emprestimo> emp = eDAO.findAll();
-        List<Livro> l = new ArrayList<>();
-        if (emp != null) {
-            for (Emprestimo e : emp) {
-                if (e.getDevoulucao() != null) {
-                    l.add(e.getLivro());
-                }
-            }
-        } else {
-            throw new ERROR400("Não foi encontrado um registro");
-        }
-        return l;
+    public List<Emprestimo> getLivrosEmprestado() {
+
+        
+        Iterable<Emprestimo> em= eDAO.findAll(); 
+        
+      
+        
+        return (List<Emprestimo>) em; 
     }
     
     // 3 - busca todos os livros não emprestados
@@ -118,48 +116,58 @@ public class EmprestimoController {
 
     // 6- insere novo emprestimo no sistema
     @RequestMapping(path="/emprestimo/", method = RequestMethod.POST)
-    public void inserirEmprestimo(@RequestBody Emprestimo emprestimo){
-        Livro livro = new Livro(); 
-        Usuario usuario = new Usuario(); 
-        Bibliotecario bibliotecario = new Bibliotecario(); 
-        Emprestimo e = new Emprestimo(); 
+    public String inserirEmprestimo(@RequestBody Emprestimo model){
         
-        if (emprestimo!= null){
-            livro  = emprestimo.getLivro(); 
-            usuario = emprestimo.getUsuario(); 
-            bibliotecario = emprestimo.getBibliotecario(); 
+            Emprestimo e = new Emprestimo(); 
+        String informacoes = ""; 
+        
+        if(model != null){
+            e.setBibliotecario(model.getBibliotecario());
+            e.setDevolucaoPrevisao();
+            // e.setDevoulucao(model.getDevoulucao());
+            e.setLivro(model.getLivro());
+            e.setUsuario(model.getUsuario());
+            e.setRetirada();
+            eDAO.save(e);
             
-            e.setBibliotecario(bibliotecario);
-            e.setUsuario(usuario);
-            e.setLivro(livro);
-                
-            e.setRetirada(emprestimo.getRetirada());
-            e.setDevoulucao(emprestimo.getDevoulucao());
-            e.setDevolucaoPrevisao(emprestimo.getDevolucaoPrevisao());
-            e.setID(eDAO.save(e).getID());
+            informacoes= "\n Bibliotecario: "+e.getBibliotecario().getNome();
+            informacoes+="\n Usuario: "+e.getUsuario().getNome(); 
+            informacoes+="\n Livro: "+e.getLivro().getTitulo(); 
+            informacoes+="\n Retirada: "+e.getRetirada();
+            informacoes+="\n Previsão devolucao: "+e.getDevolucaoPrevisao(); 
+
             
         }else{
-            throw new ERROR500("Não foi possivel efetivar emprestimo. "); 
+            throw new ERROR500("Você não inseriu todos os dados corretamente "); 
         }
+        
+        return informacoes; 
+        
+        
     }
 
     // 7-  lista todos os emprestimos com o campo devolucao maior que o prazo previsto 
     @RequestMapping(path = "/emprestimo/emAtraso/", method = RequestMethod.GET)
-    public Iterable<Emprestimo> getEmprestmosEmAtraso(@PathVariable String email) {
+    public String getEmprestmosEmAtraso() {
 
+        int count = 1;
+        String mensagem = ""; 
         Iterable<Emprestimo> emprestimos = eDAO.findAll();
-        ArrayList<Emprestimo> emp = new ArrayList<>();
-
+        
         if (emprestimos != null) {
             for (Emprestimo e : emprestimos) {
-                if (e.getDevoulucao().compareTo(e.getDevolucaoPrevisao()) > 0) {
-                    emp.add(e);
+                int atraso = e.getDevoulucao().compareTo(e.getDevolucaoPrevisao());
+
+                if (atraso > 0) {
+                    mensagem+="\n EMPRESTIMO EM ATRASO "+count;
+                    mensagem+="\n O livro "+ e.getLivro().getTitulo()+" foi entregue com um atraso de " +count+ " dias";
+                            
                 }
             }
         } else {
             throw new ERROR400("NAO FOI ENCONTRADO NENHUM REGISTRO");
         }
-        return emp;
+        return mensagem;
 
     }
 
@@ -179,7 +187,7 @@ public class EmprestimoController {
                 emprestimo.setDevoulucao(e.getDevoulucao());
                 emprestimo.setID(e.getID());
                 emprestimo.setLivro(e.getLivro());
-                emprestimo.setRetirada(e.getRetirada());
+                emprestimo.setRetirada();
                 emprestimo.setUsuario(e.getUsuario());
                 emp.add(emprestimo);
             }

@@ -1,5 +1,6 @@
 package br.edu.ifrs.restinga.daione.lista03.Lista03.Entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
@@ -21,16 +22,19 @@ public class Emprestimo implements Serializable {
     int ID; 
     
     @Column(nullable = false)
-    @Temporal(TemporalType.DATE)
+    @JsonFormat(pattern = "dd/MM/yyyy") // formatação Json de data
+    @Temporal(TemporalType.DATE) // formatação JPA de data
     Date retirada;
     
     @Column(nullable = false)
-    @Temporal(TemporalType.DATE)
+    @JsonFormat(pattern = "dd/MM/yyyy") // formatação Json de data
+    @Temporal(TemporalType.DATE) // formatação JPA de data
     Date DevolucaoPrevisao; 
 
     
     @Column(nullable = false)
-    @Temporal(TemporalType.DATE)
+    @JsonFormat(pattern = "dd/MM/yyyy") // formatação Json de data
+    @Temporal(TemporalType.DATE) // formatação JPA de data
     Date Devoulucao; 
     
     @ManyToOne
@@ -42,8 +46,8 @@ public class Emprestimo implements Serializable {
     @ManyToOne
     Bibliotecario Bibliotecario; 
 
-     public void setRetirada(Date Retirada) {
-        this.retirada = Retirada;
+     public void setRetirada() {
+        this.retirada = new Date(System.currentTimeMillis());;
     }
 
     public void setDevolucaoPrevisao(Date DevolucaoPrevisao) {
@@ -59,20 +63,21 @@ public class Emprestimo implements Serializable {
     }
 
     public Date getRetirada() {
-        return new Date(System.currentTimeMillis());
+        return this.retirada;
     }
 
 
     public Date getDevolucaoPrevisao() {
-      Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_MONTH, 7);        
-        this.DevolucaoPrevisao = calendar.getTime();        
+            
         return this.DevolucaoPrevisao;
         
     }
 
     public void setDevolucaoPrevisao() {
-       
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.DAY_OF_MONTH, 7);        
+            this.DevolucaoPrevisao = calendar.getTime();  
+        
     }
 
     public Date getDevoulucao() {
