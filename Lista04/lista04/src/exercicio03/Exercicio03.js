@@ -5,20 +5,11 @@ export default class Exercicio03 extends Component {
     constructor() {
         super();
         this.state = {
-            valor01: '',
-            valor02: '',
-            valor03: '',
-            valor04: '',
-            valor05: '',
-            valor06: '',
-            valor07: '',
-            valor08: '',
-            valor09: '',
-            controle: ''
+            valor01: '', valor02: '', valor03: '', valor04: '',
+            valor05: '', valor06: '', valor07: '',
+            valor08: '', valor09: '', controle: ''
         }
     }
-
-
     marcador01() {
         debugger
         let currentState = this.state.controle;
@@ -27,7 +18,6 @@ export default class Exercicio03 extends Component {
         } else {
             this.setState({ valor01: 'X', controle: 'X' })
         }
-
     }
     marcador02() {
         debugger
@@ -37,7 +27,6 @@ export default class Exercicio03 extends Component {
         } else {
             this.setState({ valor02: 'X', controle: 'X' })
         }
-
     }
     marcador03() {
         debugger
@@ -47,7 +36,6 @@ export default class Exercicio03 extends Component {
         } else {
             this.setState({ valor03: 'X', controle: 'X' })
         }
-
     }
     marcador04() {
         debugger
@@ -57,7 +45,6 @@ export default class Exercicio03 extends Component {
         } else {
             this.setState({ valor04: 'X', controle: 'X' })
         }
-
     }
     marcador05() {
         debugger
@@ -67,7 +54,6 @@ export default class Exercicio03 extends Component {
         } else {
             this.setState({ valor05: 'X', controle: 'X' })
         }
-
     }
     marcador06() {
         debugger
@@ -77,7 +63,6 @@ export default class Exercicio03 extends Component {
         } else {
             this.setState({ valor06: 'X', controle: 'X' })
         }
-
     }
     marcador07() {
         debugger
@@ -87,7 +72,6 @@ export default class Exercicio03 extends Component {
         } else {
             this.setState({ valor07: 'X', controle: 'X' })
         }
-
     }
     marcador08() {
         debugger
@@ -97,7 +81,6 @@ export default class Exercicio03 extends Component {
         } else {
             this.setState({ valor08: 'X', controle: 'X' })
         }
-
     }
 
     marcador09() {
@@ -111,27 +94,9 @@ export default class Exercicio03 extends Component {
 
     }
 
-
     render() {
 
         return (
-            /*
-            onClick={()=>{
-                let novoCont=this.state.cont+this.props.incremento;
-              this.setState({
-                  cont:novoCont
-              });
-              if(novoCont>=6) {
-                  if(this.props.onChegou)
-                    this.props.onChegou();
-              } 
-
-              }}>{this.props.texto?this.props.texto:"Botão"}</button>
-        Click:{this.state.cont}
-        <br/> {this.state.cont>3?"Maior que 3":"Não é maior que 3"}
-        <br/> 
-            */
-
             <section>
                 <center>
                     <div>
@@ -153,12 +118,9 @@ export default class Exercicio03 extends Component {
                     <br/><br/>
                     <button class="btn btn-danger" onClick={ ()=> this.setState({
                         valor01:'', valor02:'', valor03:'', valor04:'', valor05:'', valor06:'',
-                        
                         valor07:'', valor08:'', valor09:'', controle:''
                     })}>Limpar</button>
-
                 </center>
-
             </section>
         )
     }
