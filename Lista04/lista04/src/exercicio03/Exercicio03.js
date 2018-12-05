@@ -11,6 +11,9 @@ export default class Exercicio03 extends Component {
         }
     }
     marcador01() {
+
+        if (this.state.valor01 !="") return;
+        
         debugger
         let currentState = this.state.controle;
         if (currentState === '' || currentState === "X") {
@@ -21,6 +24,8 @@ export default class Exercicio03 extends Component {
     }
     marcador02() {
         debugger
+        if (this.state.valor02 !="") return;
+        
         let currentState = this.state.controle;
         if (currentState === '' || currentState === "X") {
             this.setState({ valor02: 'O', controle: 'O' })
@@ -30,6 +35,8 @@ export default class Exercicio03 extends Component {
     }
     marcador03() {
         debugger
+        if (this.state.valor03 !="") return;
+        
         let currentState = this.state.controle;
         if (currentState === '' || currentState === "X") {
             this.setState({ valor03: 'O', controle: 'O' })
@@ -39,6 +46,8 @@ export default class Exercicio03 extends Component {
     }
     marcador04() {
         debugger
+        if (this.state.valor04 !="") return;
+        
         let currentState = this.state.controle;
         if (currentState === '' || currentState === "X") {
             this.setState({ valor04: 'O', controle: 'O' })
@@ -47,6 +56,8 @@ export default class Exercicio03 extends Component {
         }
     }
     marcador05() {
+        if (this.state.valor05 !="") return;
+        
         debugger
         let currentState = this.state.controle;
         if (currentState === '' || currentState === "X") {
@@ -57,6 +68,8 @@ export default class Exercicio03 extends Component {
     }
     marcador06() {
         debugger
+        if (this.state.valor06 !="") return;
+        
         let currentState = this.state.controle;
         if (currentState === '' || currentState === "X") {
             this.setState({ valor06: 'O', controle: 'O' })
@@ -65,8 +78,11 @@ export default class Exercicio03 extends Component {
         }
     }
     marcador07() {
+        if (this.state.valor07 !="") return;
+        
         debugger
         let currentState = this.state.controle;
+        
         if (currentState === '' || currentState === "X") {
             this.setState({ valor07: 'O', controle: 'O' })
         } else {
@@ -75,6 +91,8 @@ export default class Exercicio03 extends Component {
     }
     marcador08() {
         debugger
+        if (this.state.valor08 !="") return;
+        
         let currentState = this.state.controle;
         if (currentState === '' || currentState === "X") {
             this.setState({ valor08: 'O', controle: 'O' })
@@ -85,6 +103,8 @@ export default class Exercicio03 extends Component {
 
     marcador09() {
         debugger
+        if (this.state.valor09 !="") return;
+        
         let currentState = this.state.controle;
         if (currentState === '' || currentState === "X") {
             this.setState({ valor09: 'O', controle: 'O' })

@@ -10,13 +10,13 @@ export default class Exercicio01 extends Component{
     somaMais(param){
         let stateInterno = this.state.value; 
         this.setState({
-            value: stateInterno +param
+            value: stateInterno + param
     })
 }
 
     render(){
         return (
-            <section>
+            <section>   
                 <button class="btn btn-light" onClick={(e) => this.somaMais(0.01)}>0.01</button>
                 <button class="btn btn-light" onClick={(e)=> this.somaMais(0.05)}>0.05</button>
                 <button class="btn btn-light" onClick={(e)=>this.somaMais(0.1)}>0.1</button>
@@ -37,6 +37,7 @@ export default class Exercicio01 extends Component{
         )
     }
 }
+
 /*
 Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.
 https://stackoverflow.com/questions/48497358/reactjs-maximum-update-depth-exceeded-error
