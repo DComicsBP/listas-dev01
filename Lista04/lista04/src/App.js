@@ -6,33 +6,13 @@ import Exercicio03 from './exercicio03/Exercicio03';
 import Exercicio04 from './exercicio04/Exercicio04';
 import Exercicio05 from './exercicio05/Exercicio05';
 import Exercicio06 from './exercicio06/Exercicio06';
-
+import Exercicio07 from './exercicio07/Exercicio07';
 class App extends Component {
   render() {
     return (
       <div className="App container">
         <h1>Eu funciono</h1>
-        <Exercicio01/>
-        <br/>
-        <hr/>
-        <br/>
-        <Exercicio02/>
-        <br/>
-        <hr/>
-        <br/>
-        <Exercicio03/>
-        <br/>
-        <hr/>
-        <br/>
-        <Exercicio04/>
-        <br/>
-        <hr/>
-        <br/>
-        <Exercicio05/>
-        <br/>
-        <hr/>
-        <br/>
-        <Exercicio06/>
+        <Exercicio07/>
       </div>
     );
   }
